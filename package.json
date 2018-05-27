@@ -1,0 +1,14 @@
+{
+  "name": "nodectp-example",
+  "version": "0.0.1",
+  "description": "example of nodectp",
+  "author": "weilee",
+  "license": "MIT",
+  "gypfile": true,
+  "dependencies": {
+    "edonctp": "^0.0.2"
+  },
+  "scripts": {
+    "start": "node index.js"
+  }
+}
