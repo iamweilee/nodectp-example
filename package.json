@@ -6,7 +6,7 @@
   "license": "MIT",
   "gypfile": true,
   "dependencies": {
-    "edonctp": "^0.0.2"
+    "edonctp": "^0.0.4"
   },
   "scripts": {
     "start": "node index.js"

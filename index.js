@@ -3,6 +3,8 @@ const { Ctp } = require('edonctp');
 const Market = require('./mymarket');
 const Trade = require('./mytrade');
 
+// require('edonctp').logger.setLevel('ERROR');
+
 let ctp = new Ctp(
     {
         frontend: {
@@ -18,9 +20,6 @@ let ctp = new Ctp(
     }
 );
 
-ctp.createMdApi();
-ctp.createTdApi();
-
 new Market(ctp);
 new Trade(
     ctp,
@@ -29,9 +28,6 @@ new Trade(
         publicTopicModel: 0
     }
 );
-
-ctp.registerMdFront();
-ctp.registerTdFront();
 
 // let { md, td } = ctp;
 // // 调用交易相关接口, 具体有哪些接口请参看CTP文档
