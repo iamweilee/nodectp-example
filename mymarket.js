@@ -1,35 +1,31 @@
-const logger = require('edonctp').logger.getLogger('app');
-const ee = require('edonctp').ee;
+let { logger, ee, Market } = require('edonctp');
+logger = logger.getLogger('market');
 
-const Class = require('iguzhi/class');
+class MyMarket extends Market {
 
-function Market(ctp) {
-	this.$superConstructor(arguments);
+    OnFrontConnected() {
+        super.OnFrontConnected(...arguments);
+        let { md, investor } = this.ctp;
+        logger.info('ReqUserLogin : %s', md.ReqUserLogin(investor, this.ctp.nRequestID()));
+    }
+
+    OnRspUserLogin(data, rsp, nRequestID, bIsLast) {
+		super.OnRspUserLogin(...arguments);
+	 	console.log("SubscribeMarketData:", this.ctp.md.SubscribeMarketData(['sc1809']));
+    }
+    
+    OnRspSubMarketData(data, rsp, nRequestID, bIsLast) {
+    	super.OnRspSubMarketData(...arguments);
+    }
+    
+    OnRspUnSubMarketData(data, rsp, nRequestID, bIsLast) {
+    	super.OnRspSubMarketData(...arguments);
+    }
+    
+    OnRtnDepthMarketData(data) {
+		super.OnRspSubMarketData(...arguments);
+		ee.emit('OnRtnDepthMarketData', data);
+	}
 }
 
-(function() {
-
-	this.OnRspUserLogin = function(data, rsp, nRequestID, bIsLast) {
-		this.$superMethod(arguments);
-	 	console.log("SubscribeMarketData:", this.ctp.md.SubscribeMarketData(['CF901', 'AP810']));
-	};
-
-	this.OnRspSubMarketData = function(data, rsp, nRequestID, bIsLast) {
-    	this.$superMethod(arguments);
-	};
-
-	this.OnRspUnSubMarketData = function(data, rsp, nRequestID, bIsLast) {
-    	this.$superMethod(arguments);
-	};
-
-	this.OnRtnDepthMarketData = function(data) {
-		this.$superMethod(arguments);
-		ee.emit('OnRtnDepthMarketData', data);
-	};
-}).call(Market.prototype);
-
-Class.inherit(Market, require('edonctp').Market);
-
-module.exports = Market;
-
-
+module.exports = MyMarket;
